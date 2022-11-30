@@ -19,9 +19,6 @@ public class Main
         printTriangleHeight("C", heightC);
     }
 
-    /**
-     * Вычисление высоты треугольника
-     */
     private static float getTriangleHeight(float sideA, float sideB, float sideC, float side)
     {
         // Сначала назвал semiperimeter, потом переименовал в p
@@ -29,22 +26,16 @@ public class Main
         return 2 / side * (float) Math.sqrt(p * (p - sideA) * (p - sideB) * (p - sideC));
     }
 
-    /**
-     * Ввод стороны треугольника
-     */
     private static float readTriangleSide(String sideName, Scanner scanner)
     {
         System.out.printf("Введите длину стороны %s треугольника: ", sideName);
         float side = scanner.nextFloat();
 
-        if (side <= 0) throw new IllegalArgumentException("Длина должна быть больше нуля");
+        if (side <= 0) throw new RuntimeException("Длина должна быть больше нуля");
 
         return side;
     }
 
-    /**
-     * Вывод высоты треугольника
-     */
     private static void printTriangleHeight(String sideName, float height)
     {
         System.out.printf("Высота стороны %s: %.3f\n", sideName, height);
