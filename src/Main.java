@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -7,53 +6,47 @@ public class Main {
     {
         Scanner scanner = new Scanner(System.in);
 
-        double[] sides = readTriangleSides(scanner);
-        double[] heights = calcTriangleHeights(sides);
-        printTriangleHeights(heights);
+        float sideA = readTriangleSide("A", scanner);
+        float sideB = readTriangleSide("B", scanner);
+        float sideC = readTriangleSide("C", scanner);
+
+        float heightA = getTriangleHeight(sideA, sideB, sideC, sideA);
+        float heightB = getTriangleHeight(sideA, sideB, sideC, sideB);
+        float heightC = getTriangleHeight(sideA, sideB, sideC, sideC);
+
+        printTriangleHeight("A", heightA);
+        printTriangleHeight("B", heightB);
+        printTriangleHeight("C", heightC);
     }
 
     /**
-     * Вычисление высот
+     * Вычисление высоты треугольника
      */
-    private static double[] calcTriangleHeights(double[] sides)
+    private static float getTriangleHeight(float sideA, float sideB, float sideC, float side)
     {
-        double semiPerimeter = Arrays.stream(sides).sum() / 2;
-
-        double coef = 1;
-        for (int i = 0; i < sides.length; i++) {
-            coef = coef * (semiPerimeter - sides[i]);
-        }
-        // Одинаковая часть (база) для расчета высот
-        double base = 2 * Math.sqrt(semiPerimeter * coef);
-
-        double[] heights = new double[3];
-        for (int i = 0; i < heights.length; i++) {
-            heights[i] = base / sides[i];
-        }
-
-        return heights;
+        // Сначала назвал semiperimeter, потом переименовал в p
+        float p = (sideA + sideB + sideC) / 2;
+        return 2 / side * (float) Math.sqrt(p * (p - sideA) * (p - sideB) * (p - sideC));
     }
 
     /**
-     * Ввод сторон треугольника
+     * Ввод стороны треугольника
      */
-    private static double[] readTriangleSides(Scanner scanner)
+    private static float readTriangleSide(String sideName, Scanner scanner)
     {
-        System.out.println("Введите длины сторон треугольника через пробел:");
-        double[] sides = new double[3];
-        for (int i = 0; i < sides.length; i++) {
-            sides[i] = scanner.nextDouble();
-        }
-        return sides;
+        System.out.printf("Введите длину стороны %s треугольника: ", sideName);
+        float side = scanner.nextFloat();
+
+        if (side <= 0) throw new IllegalArgumentException("Длина должна быть больше нуля");
+
+        return side;
     }
 
     /**
-     * Вывод высот треугольника
+     * Вывод высоты треугольника
      */
-    private static void printTriangleHeights(double[] heights)
+    private static void printTriangleHeight(String sideName, float height)
     {
-        for (int i = 0; i < heights.length; i++) {
-            System.out.printf("Высота %d: %.3f\n", i + 1, heights[i]);
-        }
+        System.out.printf("Высота стороны %s: %.3f\n", sideName, height);
     }
 }
